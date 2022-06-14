@@ -87,7 +87,8 @@ class InternationalPhoneNumberInput extends StatefulWidget {
   final Iterable<String>? autofillHints;
 
   final List<String>? countries;
-
+  final Icon? dropDownIcon;
+  final EdgeInsetsGeometry? contentPadding;
   InternationalPhoneNumberInput(
       {Key? key,
       this.selectorConfig = const SelectorConfig(),
@@ -128,7 +129,9 @@ class InternationalPhoneNumberInput extends StatefulWidget {
       this.autofillHints,
       this.countries,
       this.boxDecoration,
-      this.fillColorBorderTextField})
+      this.fillColorBorderTextField,
+      this.dropDownIcon,
+      this.contentPadding})
       : super(key: key);
 
   @override
@@ -293,7 +296,8 @@ class _InputWidgetState extends State<InternationalPhoneNumberInput> {
           fillColor: widget.fillColorBorderTextField ?? Colors.red,
           border: widget.inputBorder ?? UnderlineInputBorder(),
           hintText: widget.hintText,
-          contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+          contentPadding: widget.contentPadding ??
+              EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
         );
 
     if (widget.selectorConfig.setSelectorButtonAsPrefixIcon) {
@@ -406,10 +410,9 @@ class _InputWidgetView
             //   mainAxisAlignment: MainAxisAlignment.center,
             //   children: [
             Container(
-              padding: const EdgeInsets.all(5.0),
+              padding: EdgeInsets.all(context.kProportionateWidth(5)),
               decoration: widget.boxDecoration ??
                   BoxDecoration(
-                      // color: Colors.yellow,
                       borderRadius: BorderRadius.all(Radius.circular(10.0)),
                       border: Border.all(color: Colors.blueAccent)),
               child: Row(
@@ -429,12 +432,19 @@ class _InputWidgetView
                       isScrollControlled:
                           widget.countrySelectorScrollControlled,
                     ),
-                    Container(
-                        alignment: Alignment.centerRight,
-                        child: Icon(
-                          Icons.expand_more,
-                          size: 12,
-                        )),
+                    Visibility(
+                        visible: widget.selectorConfig.selectorType ==
+                                PhoneInputSelectorType.DROPDOWN
+                            ? false
+                            : true,
+                        child: Container(
+                            alignment: Alignment.centerRight,
+                            child: widget.dropDownIcon ??
+                                Icon(
+                                  Icons.expand_more,
+                                  size: context.kProportionateWidth(12),
+                                  color: Colors.red,
+                                ))),
                   ]),
             ),
             //     SizedBox(
@@ -485,5 +495,32 @@ class _InputWidgetView
         ],
       ),
     );
+  }
+}
+
+extension ExtensionContext on BuildContext {
+  double kWidth() {
+    return MediaQuery.of(this).size.width;
+  }
+
+  double kHeight() {
+    return MediaQuery.of(this).size.height;
+  }
+
+  double kHeightTop() {
+    return MediaQuery.of(this).padding.top;
+  }
+
+  double kHeightBottom() {
+    return MediaQuery.of(this).padding.bottom;
+  }
+
+  double kProportionateWidth(double inputWidth) {
+    return (inputWidth / 414.0) * MediaQuery.of(this).size.width;
+  }
+
+  double kProportionateHeight(double inputHeight) {
+    debugPrint('kProportionateHeight ${MediaQuery.of(this).size.height}');
+    return (inputHeight / 896.0) * MediaQuery.of(this).size.height;
   }
 }

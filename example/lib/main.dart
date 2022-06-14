@@ -74,10 +74,16 @@ class _MyHomePageState extends State<MyHomePage> {
                   onSaved: (PhoneNumber number) {
                     print('On Saved: $number');
                   },
-                  // boxDecoration: BoxDecoration(
-                  //     // color: Colors.yellow,
-                  //     borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                  //     border: Border.all(color: Colors.blueAccent)),
+                  dropDownIcon: Icon(
+                    Icons.expand_more,
+                    size: 12,
+                    color: Colors.red,
+                  ),
+                  boxDecoration: BoxDecoration(
+                      color: Colors.yellow,
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      border: Border.all(color: Colors.blueAccent)),
+                  contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                 )),
             ElevatedButton(
               onPressed: () {

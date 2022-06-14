@@ -47,9 +47,12 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
-                height: 40,
+                height: context.kProportionateHeight(40),
                 // color: Colors.yellow,
-                padding: EdgeInsets.only(left: 31, right: 12),
+                padding: EdgeInsets.only(
+                  left: context.kProportionateWidth(30),
+                  right: context.kProportionateWidth(12),
+                ),
                 child: InternationalPhoneNumberInput(
                   onInputChanged: (PhoneNumber number) {
                     print(number.phoneNumber);
@@ -68,9 +71,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   formatInput: false,
                   keyboardType: TextInputType.numberWithOptions(
                       signed: true, decimal: true),
-                  inputBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
+                  // inputBorder: OutlineInputBorder(
+                  //   borderRadius: BorderRadius.circular(10.0),
+                  // ),
                   onSaved: (PhoneNumber number) {
                     print('On Saved: $number');
                   },
@@ -83,7 +86,16 @@ class _MyHomePageState extends State<MyHomePage> {
                       color: Colors.yellow,
                       borderRadius: BorderRadius.all(Radius.circular(10.0)),
                       border: Border.all(color: Colors.blueAccent)),
-                  contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+
+                  inputDecoration: InputDecoration(
+                    fillColor: Colors.red,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    hintText: "Số điện thoại",
+                    contentPadding:
+                        const EdgeInsets.fromLTRB(20.0, 5.0, 20.0, 5.0),
+                  ),
                 )),
             ElevatedButton(
               onPressed: () {
